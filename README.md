@@ -226,3 +226,118 @@
         WHERE 조건...
         ORDER BY 열1, 열2, ASC|DESC;
     ```
+
+## 2일차
+
+### 도커 사용하는 이유
+
+- 설치 편의성 - 이미지만 있으면 컨테이너로 실행하는데 수십초에 불과함. 설치설정 불필요
+- 환경격차 문제 해결 - OS단의 설정까지 건드려야하는 문제를 없애고, 간단하게 서비스를 실행 가능
+- 서버비용 절감 - 새로운 서비스를 할 때마다 하드웨어 서버를 구매, 설정할 필요가 없음
+- OS에 독립적 - 새로운 서비스의 운영OS에 따라 OS를 새로 설치할 필요없음
+- 가상머신보다 빠름 - VMWare, VirtualBox와 같은 가상OS머신 보다 실행속도가 빠름. 필요없는 기능 제거, 용량 축소
+
+### AI시대 PostgreSQL 학습
+
+- DB시장에서 Oracle. MySQL. SQLServer 다음 PostgreSQL이 4위
+- AI시대에 더 비중이 오름
+- 나중에 학습할 것
+
+
+### DBeaver 접속설정 다시
+
+- Public Key Retrieval is not allowed라는 경고메세지로 접속불가할때
+
+![alt text](image-10.png)
+
+- Driver properties 탭 `allowPublicRetrival` 키를 `true`로 변경
+
+### SELECT 실습
+
+- 기본문법 [쿼리](./day02/1.SELECT기본.sql)
+
+    ```sql
+    SELECT ALL|DISTINCT 컬럼1, ...
+      FROM 테이블명
+    WHERE 필터링조건
+    GROUP BY 그루핑컬럼1, 컬럼2...
+    HAVING 집계함수필터링조건
+    ORDER BY 컬럼1, 컬럼2 DESC;
+    ```
+
+#### 필터링
+
+- WHERE 절 - 전체 데이터에서 필요한 것만 필터링
+
+    - 비교 : =(같다), <>(같지 않다), !=(DB종류별로), <, >, <=, >=
+    - 범위 : BETWEEN a AND b, 초과, `미만은 사용불가`, `날짜는 조심`할 것!
+        - price BETWEEN 10000 AND 20000
+    - 집합 : IN, NOT IN
+        - price IN (10000, 20000, 25000) -- 가격이 1만, 2만, 2만5천에 속하는 데이터
+        - price NOT IN (10000, 20000) -- 가격이 1만, 2만을 제외한 나머지 데이터
+    - 패턴 : LIKE (문자열만), %, _
+        - bookname LIKE '축구%' -- 책제목중 축구로 시작하는 책 모두
+    - NULL : 데이터가 없는 것, 입력되지 않은 것, =로 비교하지 X!
+        - price IS NULL, price IS NOT NULL
+    - 복합 : AND(C++ &&와 동일), OR(C++ ||), NOT(C++ !)로 비교
+        - (price < 20000) AND (bookname LIKE '축구의%')
+
+- ORDER BY - 정렬 ASC(오름차순), DESC(내림차순)
+
+#### 별명
+
+- Alias - 별명으로 컬럼명, 테이블명 등 원래의 이름을 바꿔쓰고 싶을때 AS 사용
+    - " 쌍따옴표로 별명을 지정하는 것을 추천. (스페이스사용 등)
+
+#### 그룹화 및 집계함수
+
+- GROUP BY, 집계(통계)함수 - DB를 사용하는 가장큰 목적 중 하나
+    - SUM() : 총합, 숫자컬럼만
+    - COUNT() : 총 개수, 컬럼 대신 * 가능
+    - MIN() : 최소값, 숫자컬럼만
+    - MAX() : 최대값, 숫자컬럼만
+    - AVG() : 평균값, 숫자컬럼만
+    - STD() : 표준편차
+
+- HAVING - 일반 필터링은 WHERE 절로, `집계함수 필터링은 HAVING`절로
+
+- GROUP BY, HAVING 주의사항
+    - GROUP BY에 포함되지 않은 컬럼은 SELECT에 사용할 수 없음!
+    - 집계함수 외 일반컬럼은 SELECT와 GROUP BY를 일치시킬 것
+    - HAVING 절에는 집계함수 필터링 포함
+    - WHERE 절에 집계함수 사용불가!
+    - SELECT, FROM. WHERE, GROUP BY, HAVING, ORDER BY 순 기억
+
+#### 조인
+
+- JOIN - 관계형 DB의 핵심기능 - [쿼리](./day02/3.JOIN.sql)
+    - 두개 이상의 테이블을 합쳐서 하나의 테이블처럼 보여주는 기법
+
+- JOIN 종류 - 종류는 많으나 3가지만 알면 됨
+    - INNER JOIN(내부조인) - 조인중에서 가장 간단한 조인. 컬럼이 일치하는 데이터만 조회. 기준테이블 없음. 조인되는 테이블간의 관계 확인
+    - OUTER JOIN(외부조인) - 한 테이블 기준으로 데이터가 일치하지 않는 데이터까지 나오도록 조회하는 조인
+        - LEFT OUTER JOIN - 두 개의 테이블중 앞쪽 테이블 기준
+        - RIGHT OUTER JOIN - 두 개의 테이블중 뒤쪽 테이블 기준
+
+#### 서브쿼리(부솔직의)
+
+- SubQuery - 쿼리 내부에 포함되는 하위쿼리. 항상 소괄호() 내에 작성 - [쿼리](./day02/5.STD연습.sql)
+    - 서브쿼리부터 먼저 작성
+    - 메인쿼리 - 소괄호 밖의 쿼리
+    - 서브쿼리 - 소괄호 안의 쿼리
+
+## 3일차
+
+### SELECT 실습
+
+#### 서브쿼리 계속
+
+#### 집합연산
+
+### DML 기타
+
+#### INSERT
+
+#### UPDATE
+
+#### DELETE
