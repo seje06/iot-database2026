@@ -462,13 +462,13 @@
     - https://www.mysqltutorial.org/getting-started-with-mysql/mysql-sample-database/
     - https://dev.mysql.com/doc/index-other.html?ref=dbwriter.io
 
-- Sakila-db - MySQL 버전충돌로 현재 사용불가
-
+- `Sakila`(영화 대여DB) - [쿼리](./ref/sakila-schema-safe.sql)
+    - Data - [쿼리](./ref/sakila-data.sql)
 - INSERT INTO 대량 삽입
 
 ### DML 추가
 
-- INSERT INTO 대량 삽입 - MySQL 방법
+- INSERT INTO 대량 삽입 - MySQL 방법 - [쿼리](./day04/1.INSERT추가.sql)
 
     ```sql
     INSERT INTO 테이블명 VALUES (컬럼1값, 컬럼2값, ... 컬럼n값),
@@ -477,6 +477,9 @@
     ...
     (컬럼1값, 컬럼2값, ... 컬럼n값);
     ```
+
+- SELECT TOP 3
+    - 전체 조회 수중에서 조건에 맞는 데이터 3개만 조회
 
 ### DDL 계속
 
@@ -488,7 +491,7 @@
 
 #### CREATE 계속
 
-- CREATE 구문
+- CREATE 구문 - [쿼리](./day04/2.CREATE.sql)
     - PRIMARY KEY (컬럼1 또는 여러개)
     - FOREIGN KEY (custid) REFERENCES NewCustomer(custid) ON DELETE CASCADE,
         - REFERENCES : 참조하는 부모테이블과 PK컬럼
@@ -502,7 +505,7 @@
 
 #### ALTER
 
-- ALTER
+- ALTER - - [쿼리](./day04/3.ALTER.sql)
     - 객체 수정. 테이블 외에서는 많이 사용안됨
 
     ```sql
@@ -526,3 +529,47 @@
     ```
 
 ### 내장함수
+
+- C, C++ 내장함수와 동일 - - [쿼리](./day04/4.내장함수.sql)
+
+### NULL 과 NULL관련 함수
+
+- 아직 지정되지 않은 값. - [쿼리](./day04/5.NULL.sql)
+- '0', '', ' ' 과 다름
+- C, c++ '\0' 과 동일한 의미
+- 비교연산 불가(=, >, <, >=, <=,!=) 대신 IS, IS NOT만 사용 가능
+- NULL 값을 연산하면 결과도 NULL이 됨
+    - NULL + 숫자 => NULL
+    - 집계함수 계산 시 NULL 포함된 행은 집계에서 빠짐(!)
+
+
+### 쿼리연습
+
+- [쿼리](./day04/7.Sakila_practice.sql)
+
+![Sakila_erd](./Sakila_erd.png)
+
+### 뷰
+
+### 인덱스
+
+### 트랜잭션, 동시성제어
+
+- TCL
+
+### 보안 및 관리
+
+#### 사용자
+
+- DDL 일부
+
+#### 권한
+
+- DCL
+
+### MySQL 프로그래밍
+
+### DB연동 C/C++ MySQL 연동
+
+### 데이터베이스 모델링
+
