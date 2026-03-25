@@ -40,7 +40,14 @@ SELECT *
  CREATE INDEX idx_orders_customer_id ON orders_big(customer_id);
  
  /* 인덱스 추가후 실행계획
-  */-> Sort: orders_big.order_date DESC  (cost=28.6 rows=26) (actual time=5.18..5.18 rows=26 loops=1)
-    -> Index lookup on orders_big using idx_orders_customer_id (customer_id=123456)  (cost=28.6 rows=26) (actual time=2.49..5.16 rows=26 loops=1)
+  -> Sort: orders_big.order_date DESC  (cost=28.6 rows=26) (actual time=5.18..5.18 rows=26 loops=1)
+    -> Index lookup on orders_big using idx_orders_customer_id (customer_id=123456)  (cost=28.6 rows=26) (actual time=2.49..5.16 rows=26 loops=1)   
+ */
+ 
+-- 두번째 인덱스 추가
+ CREATE INDEX idx_orders_order_date ON orders_big(order_date DESC);
 
-  * */
+-- 두 인덱스 제거
+CREATE INDEX idx_orders_customer_id_and_order_date ON orders_big(customer_id, order_date);
+
+CREATE INDEX idx_orders_city_and_amount ON orders_big(city, amount);
